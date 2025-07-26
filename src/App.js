@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (window.Telegram && window.Telegram.WebApp) {
+      const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
+      setUser(tgUser);
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
+      <h1>📚 Med Mini ilovasi</h1>
+      {user ? (
+        <p>Assalomu alaykum, <strong>{user.first_name}</strong>!</p>
+      ) : (
+        <p>Telegram orqali mini ilovani oching.</p>
+      )}
     </div>
   );
 }
