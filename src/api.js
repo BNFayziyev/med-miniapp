@@ -1,13 +1,9 @@
-import axios from 'axios';
+const API_BASE_URL = "http://127.0.0.1:8000"; // lokalda ishlatyapmiz
 
-const API_URL = "http://localhost:8000/api/materials"; // Agar VPS bo‘lsa, domenni yozing
-
-export async function fetchMaterials(filters = {}) {
-  try {
-    const response = await axios.get(API_URL, { params: filters });
-    return response.data;
-  } catch (error) {
-    console.error("API error:", error);
-    return [];
+export async function fetchMaterials() {
+  const response = await fetch(`${API_BASE_URL}/materials`);
+  if (!response.ok) {
+    throw new Error("Ma'lumotlarni yuklashda xatolik");
   }
+  return response.json();
 }

@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import Header from './components/Header';
-import MaterialCard from './components/MaterialCard';
+import { useEffect, useState } from "react";
 
 function App() {
   const [materials, setMaterials] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/materials')
-      .then((res) => res.json())
-      .then((data) => setMaterials(data))
-      .catch((err) => console.error(err));
+    fetch("https://med-backend-cnt6.onrender.com/materials")
+      .then(res => res.json())
+      .then(data => {
+        setMaterials(data);
+      })
+      .catch(err => console.error("Xatolik:", err));
   }, []);
 
   return (
-    <div className="App">
-      <Header />
-      <div className="material-list">
-        {materials.map((item) => (
-          <MaterialCard key={item.id} material={item} />
+    <div>
+      <h1>Materiallar ro'yxati</h1>
+      <ul>
+        {materials.map((m) => (
+          <li key={m.id}>
+            <strong>{m.title}</strong> — {m.category} <br />
+            <a href={m.file_path} target="_blank" rel="noreferrer">Faylni ochish</a>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

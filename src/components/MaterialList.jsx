@@ -1,25 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { fetchMaterials } from '../api';
-import Card from './Card';
+import React, { useEffect, useState } from "react";
+import { fetchMaterials } from "../api";
+import MaterialCard from "./MaterialCard";
 
 const MaterialList = () => {
   const [materials, setMaterials] = useState([]);
 
   useEffect(() => {
-    const load = async () => {
-      const data = await fetchMaterials();
-      setMaterials(data);
+    const loadMaterials = async () => {
+      try {
+        const data = await fetchMaterials();
+        setMaterials(data);
+      } catch (error) {
+        console.error("Xatolik:", error);
+      }
     };
-    load();
+
+    loadMaterials();
   }, []);
 
   return (
-    <div className="p-4">
-      {materials.length === 0 ? (
-        <p className="text-center text-gray-500">Materiallar mavjud emas</p>
-      ) : (
-        materials.map((m) => <Card key={m.id} material={m} />)
-      )}
+    <div>
+      {materials.map((mat) => (
+        <MaterialCard key={mat.id} material={mat} />
+      ))}
     </div>
   );
 };
